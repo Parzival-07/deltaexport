@@ -97,6 +97,16 @@ h1, h2, h3, h4 {
     color: var(--primary);
 }
 
+.logo-image {
+    width: 58px;
+    height: 58px;
+    object-fit: cover;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    flex-shrink: 0;
+    background: var(--white);
+}
+
 .logo-text h1 {
     font-size: 1.8rem;
     color: var(--primary);
@@ -565,6 +575,195 @@ section {
 
 .product-features i {
     color: var(--success);
+}
+
+/* Scrap Preview */
+.scrap-preview {
+    background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.scrap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+}
+
+.scrap-card {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: 0.3s;
+    border: 1px solid rgba(211, 84, 0, 0.08);
+}
+
+.scrap-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+}
+
+.scrap-card-header {
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(44, 62, 80, 0.05), rgba(211, 84, 0, 0.08));
+}
+
+.scrap-card-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient);
+    color: var(--white);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.scrap-card-header h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.scrap-card-header p {
+    color: var(--text-light);
+}
+
+.scrap-card-body {
+    padding: 0 2rem 2rem;
+}
+
+.scrap-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 1.25rem 0 1.75rem;
+}
+
+.scrap-chip {
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    background: #f8f9fa;
+    color: var(--dark);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.scrap-card .btn {
+    width: fit-content;
+}
+
+/* Metal Detail Pages */
+.metal-intro {
+    max-width: 900px;
+    margin: 0 auto 4rem;
+    text-align: center;
+}
+
+.metal-detail-card {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 2.5rem;
+    align-items: center;
+    background: var(--white);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    transition: 0.3s;
+}
+
+.metal-detail-card:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.metal-detail-card.reverse {
+    direction: rtl;
+}
+
+.metal-detail-card.reverse > * {
+    direction: ltr;
+}
+
+.metal-visual {
+    position: relative;
+    overflow: hidden;
+    min-height: 340px;
+    padding: 2.5rem;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(44, 62, 80, 0.98), rgba(211, 84, 0, 0.92));
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: var(--shadow);
+}
+
+.metal-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.16), transparent 45%), radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.08), transparent 35%);
+}
+
+.metal-visual > * {
+    position: relative;
+    z-index: 1;
+}
+
+.metal-icon {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    font-size: 2.6rem;
+    box-shadow: var(--shadow);
+}
+
+.metal-visual h3 {
+    font-size: 2rem;
+    color: var(--white);
+    margin: 1rem 0 0.75rem;
+}
+
+.metal-visual p {
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.metal-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.metal-meta span {
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.metal-detail-info h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+.metal-detail-info .product-specs {
+    margin-top: 1.5rem;
+}
+
+.metal-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
 /* Why Choose */
@@ -1445,6 +1644,12 @@ section {
     margin-bottom: 1rem;
 }
 
+.footer-logo .logo-image {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+}
+
 .footer-logo i {
     font-size: 2.5rem;
     color: var(--primary);
@@ -1630,7 +1835,7 @@ section {
 /* Responsive */
 @media (max-width: 1024px) {
     .hero-title { font-size: 3rem; }
-    .about-intro, .contact-grid, .product-detail-card {
+    .about-intro, .contact-grid, .product-detail-card, .metal-detail-card {
         grid-template-columns: 1fr;
     }
     .mission-vision {

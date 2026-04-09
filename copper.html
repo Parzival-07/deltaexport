@@ -1,88 +1,298 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Copper scrap export from Delta Export, including Millberry and industrial-grade copper for recycling and manufacturing.">
   <title>Copper Scrap Export - Delta Export</title>
-
-  <style>
-    body {
-      font-family: Arial;
-      margin: 0;
-      background: #f5f5f5;
-    }
-
-    header {
-      background: black;
-      color: white;
-      padding: 15px;
-      text-align: center;
-    }
-
-    .container {
-      padding: 20px;
-    }
-
-    .product {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 12px 20px;
-      background: green;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-    }
-
-    ul {
-      line-height: 1.8;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
-
 <body>
+  <header class="header" id="header">
+    <nav class="navbar">
+      <div class="container">
+        <div class="nav-wrapper">
+          <div class="logo">
+            <img src="logo.jpeg" alt="Delta Export logo" class="logo-image">
+            <div class="logo-text">
+              <h1>Delta Export</h1>
+              <p class="tagline">Premium Indian Spices & Metal Scrap</p>
+            </div>
+          </div>
+          <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="about.html" class="nav-link">About Us</a></li>
+            <li><a href="products.html" class="nav-link">Our Products</a></li>
+            <li><a href="scrap.html" class="nav-link active">Scrap Export</a></li>
+            <li><a href="contact.html" class="nav-link">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
 
-<header>
-  <h1>Copper Scrap Export</h1>
-  <p>High Purity Industrial Copper Scrap Supplier</p>
-</header>
+  <section class="page-hero">
+    <div class="page-hero-overlay"></div>
+    <div class="container">
+      <div class="page-hero-content" data-aos="fade-up">
+        <h1>Copper <span class="gradient-text">Scrap</span></h1>
+        <p>Millberry-grade copper scrap supplied for electrical, industrial, and recycling use</p>
+        <div class="breadcrumb">
+          <a href="index.html"><i class="fas fa-home"></i> Home</a>
+          <span><i class="fas fa-chevron-right"></i></span>
+          <a href="scrap.html">Scrap Export</a>
+          <span><i class="fas fa-chevron-right"></i></span>
+          <span>Copper Scrap</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<div class="container">
+  <section class="products-section">
+    <div class="container">
+      <div class="metal-intro" data-aos="fade-up">
+        <span class="section-badge">Copper Scrap</span>
+        <h2>High-Purity Copper for <span class="gradient-text">Industrial Recycling</span></h2>
+        <div class="section-divider"></div>
+        <p class="section-subtitle">We supply export-ready copper scrap with a focus on clean sorting, dependable grading, and practical logistics for buyers who need consistent material.
+        </p>
+      </div>
 
-  <div class="product">
-    <h2>Copper Scrap (Millberry)</h2>
+      <div class="metal-detail-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="metal-visual">
+          <div class="metal-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3>Millberry Copper</h3>
+          <p>Clean, high-conductivity copper scrap prepared for smelting, recycling, and manufacturing processes.</p>
+          <div class="metal-meta">
+            <span>99.9% Purity</span>
+            <span>Wire Grade</span>
+            <span>Export Ready</span>
+          </div>
+        </div>
+        <div class="metal-detail-info">
+          <span class="section-badge">Copper Scrap</span>
+          <h2>Dependable Copper Scrap Supply</h2>
+          <p class="product-desc">Our copper scrap supply is built for customers who need clean, sorted, and high-conductivity material. We support industrial recycling, wire production, and metal recovery applications with export-ready handling.</p>
+          <div class="product-specs">
+            <div class="spec-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Millberry / Birch Cliff Grade</span>
+            </div>
+            <div class="spec-item">
+              <i class="fas fa-check-circle"></i>
+              <span>High Conductivity Material</span>
+            </div>
+            <div class="spec-item">
+              <i class="fas fa-check-circle"></i>
+              <span>1 Ton Bale Packing</span>
+            </div>
+            <div class="spec-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Sorted for Recycling</span>
+            </div>
+          </div>
+          <div class="metal-cta">
+            <a href="https://wa.me/919662679966?text=Hello! I am interested in copper scrap supply." target="_blank" class="btn btn-success btn-sm whatsapp-btn">
+              <i class="fab fa-whatsapp"></i>
+              <span>WhatsApp Inquiry</span>
+            </a>
+            <a href="contact.html" class="btn btn-outline-primary btn-sm">
+              <span>Request a Quote</span>
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+      </div>
 
-    <p>
-      We supply premium quality copper scrap with high conductivity and purity,
-      suitable for industrial recycling and manufacturing processes.
-    </p>
+      <div class="choose-grid" data-aos="fade-up" data-aos-delay="200">
+        <div class="choose-card">
+          <div class="choose-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3>Electrical Use</h3>
+          <p>Suitable for applications where conductivity and material cleanliness matter most.</p>
+        </div>
 
-    <h3>Specifications:</h3>
-    <ul>
-      <li>Purity: 99.9%</li>
-      <li>Grade: Millberry / Birch Cliff</li>
-      <li>Packaging: 1 Ton Bale</li>
-      <li>Origin: India</li>
-    </ul>
+        <div class="choose-card">
+          <div class="choose-icon">
+            <i class="fas fa-industry"></i>
+          </div>
+          <h3>Wire Manufacturing</h3>
+          <p>Ideal for copper recovery and downstream wire production workflows.</p>
+        </div>
 
-    <h3>Applications:</h3>
-    <ul>
-      <li>Electrical Industry</li>
-      <li>Wire Manufacturing</li>
-      <li>Metal Recycling</li>
-    </ul>
-    
-  <a href="https://wa.me/919662679966" class="btn" target="_blank" rel="noopener">
-  Contact on WhatsApp
-</a>
+        <div class="choose-card">
+          <div class="choose-icon">
+            <i class="fas fa-recycle"></i>
+          </div>
+          <h3>Recycling Plants</h3>
+          <p>Prepared for efficient processing in industrial recycling operations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  </div>
+  <section class="scrap-preview">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-badge">More Scrap</span>
+        <h2 class="section-title">Other Metal <span class="gradient-text">Supply Options</span></h2>
+        <div class="section-divider"></div>
+        <p class="section-subtitle">Need aluminium or brass scrap as well? We can help source those materials through the same export workflow.</p>
+      </div>
 
-</div>
+      <div class="scrap-grid">
+        <div class="scrap-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="scrap-card-header">
+            <div class="scrap-card-icon">
+              <i class="fas fa-industry"></i>
+            </div>
+            <h3>Aluminium Scrap</h3>
+            <p>Clean aluminium scrap for extrusion, casting, and general recycling use.</p>
+          </div>
+          <div class="scrap-card-body">
+            <div class="scrap-features">
+              <span class="scrap-chip">UBC / Extrusion</span>
+              <span class="scrap-chip">Clean & Sorted</span>
+              <span class="scrap-chip">Loose / Bale</span>
+            </div>
+            <a href="scrap.html" class="btn btn-outline-primary btn-sm">
+              <span>Explore Scrap Page</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
 
+        <div class="scrap-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="scrap-card-header">
+            <div class="scrap-card-icon">
+              <i class="fas fa-cubes"></i>
+            </div>
+            <h3>Brass Scrap</h3>
+            <p>Yellow brass scrap with strong recycling value for hardware and manufacturing.</p>
+          </div>
+          <div class="scrap-card-body">
+            <div class="scrap-features">
+              <span class="scrap-chip">Yellow Brass</span>
+              <span class="scrap-chip">Clean Material</span>
+              <span class="scrap-chip">Bale Ready</span>
+            </div>
+            <a href="contact.html" class="btn btn-outline-primary btn-sm">
+              <span>Contact Us</span>
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="cta-overlay"></div>
+    <div class="container">
+      <div class="cta-content" data-aos="zoom-in">
+        <h2>Looking for Copper Scrap Pricing?</h2>
+        <p>Get in touch for availability, volume requirements, and export coordination</p>
+        <div class="cta-buttons">
+          <a href="contact.html" class="btn btn-white">
+            <span>Contact Us Now</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="https://wa.me/919662679966" target="_blank" class="btn btn-outline-white">
+            <span>WhatsApp Us</span>
+            <i class="fab fa-whatsapp"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-logo">
+            <img src="logo.jpeg" alt="Delta Export logo" class="logo-image">
+            <div>
+              <h3>Delta Export</h3>
+              <p class="footer-tagline">Premium Indian Spices & Metal Scrap</p>
+            </div>
+          </div>
+          <p>Your trusted partner in premium Indian spices and metal scrap. Exporting quality and delivering excellence worldwide.</p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+            <li><a href="products.html"><i class="fas fa-chevron-right"></i> Our Products</a></li>
+            <li><a href="scrap.html"><i class="fas fa-chevron-right"></i> Scrap Export</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Our Products</h4>
+          <ul>
+            <li><a href="products.html"><i class="fas fa-chevron-right"></i> Turmeric Powder</a></li>
+            <li><a href="products.html"><i class="fas fa-chevron-right"></i> Red Chilli</a></li>
+            <li><a href="products.html"><i class="fas fa-chevron-right"></i> Cardamom</a></li>
+            <li><a href="products.html"><i class="fas fa-chevron-right"></i> Black Pepper</a></li>
+            <li><a href="products.html"><i class="fas fa-chevron-right"></i> Cumin Seeds</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Contact Info</h4>
+          <ul class="contact-info">
+            <li>
+              <i class="fas fa-phone"></i>
+              <a href="tel:+919662679966">+91 9662679966</a>
+            </li>
+            <li>
+              <i class="fas fa-phone"></i>
+              <a href="tel:+919377105491">+91 9377105491</a>
+            </li>
+            <li>
+              <i class="fas fa-envelope"></i>
+              <a href="mailto:deltaexports09@gmail.com">deltaexports09@gmail.com</a>
+            </li>
+            <li>
+              <i class="fas fa-map-marker-alt"></i>
+              <span>India</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; <span id="currentYear"></span> Delta Export. All rights reserved.</p>
+        <p>Designed with <i class="fas fa-heart"></i> for Premium Spices and Scrap</p>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/919662679966" class="whatsapp-float" target="_blank" aria-label="Contact on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+    <span class="whatsapp-tooltip">Chat with us!</span>
+  </a>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

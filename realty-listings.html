@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Properties | Delta Realty</title><link rel="stylesheet" href="realty.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body>
+<header class="rt-header"><div class="rt-container nav"><a class="brand" href="realty.html"><span class="brand-mark">Δ</span><span><b>DELTA</b><small>REALTY</small></span></a><nav><a href="realty.html">Home</a><a href="realty-listings.html" class="active">Buy</a><a href="realty-listings.html?mode=rent">Rent</a><a href="realty-listings.html?type=commercial">Commercial</a><a href="realty-listings.html?type=plot">Plots</a><a href="realty-post.html" class="post-btn">Post Property</a></nav></div></header>
+<main class="listing-page rt-container">
+  <div class="listing-top"><div><span class="eyebrow">DELTA REALTY</span><h1 id="listingTitle">Properties</h1><p id="resultCount"></p></div><button id="reset" class="ghost">Reset filters</button></div>
+  <div class="filters">
+    <input id="fSearch" placeholder="Search city or locality">
+    <select id="fMode"><option value="">Buy / Rent</option><option value="buy">Buy</option><option value="rent">Rent</option></select>
+    <select id="fType"><option value="">All property types</option><option>Apartment</option><option>Independent House</option><option>Villa</option><option>Plot</option><option>Office</option><option>Shop</option><option>Warehouse</option></select>
+    <select id="fBeds"><option value="">Any BHK</option><option value="1">1 BHK</option><option value="2">2 BHK</option><option value="3">3 BHK</option><option value="4">4+ BHK</option></select>
+    <select id="fBudget"><option value="">Any budget</option><option value="0-5000000">Up to ₹50 Lakh</option><option value="5000000-10000000">₹50 Lakh–₹1 Cr</option><option value="10000000-25000000">₹1–2.5 Cr</option><option value="25000000-999999999">₹2.5 Cr+</option></select>
+  </div>
+  <div id="listingGrid" class="property-grid large"></div>
+</main>
+<footer class="rt-footer"><div class="copyright">© <span id="year"></span> Delta Realty • <a href="index.html">Delta Export</a></div></footer>
+<script src="realty-data.js"></script><script src="realty.js"></script>
+</body></html>

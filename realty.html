@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Delta Realty - Buy, sell and rent residential and commercial properties.">
+<title>Delta Realty | Buy, Sell & Rent Properties</title>
+<link rel="stylesheet" href="realty.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<header class="rt-header">
+  <div class="rt-container nav">
+    <a class="brand" href="realty.html"><span class="brand-mark">Δ</span><span><b>DELTA</b><small>REALTY</small></span></a>
+    <nav>
+      <a href="realty.html" class="active">Home</a>
+      <a href="realty-listings.html">Buy</a>
+      <a href="realty-listings.html?mode=rent">Rent</a>
+      <a href="realty-listings.html?type=commercial">Commercial</a>
+      <a href="realty-listings.html?type=plot">Plots</a>
+      <a href="realty-post.html" class="post-btn">Post Property</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-copy">
+    <span class="eyebrow">DELTA EXPORT • NEW BUSINESS VERTICAL</span>
+    <h1>Find a place<br><span>you'll love.</span></h1>
+    <p>Buy, sell, rent and discover residential & commercial properties with Delta Realty.</p>
+  </div>
+  <div class="search-card">
+    <div class="tabs">
+      <button class="tab active" data-mode="buy">Buy</button>
+      <button class="tab" data-mode="rent">Rent</button>
+      <button class="tab" data-mode="commercial">Commercial</button>
+    </div>
+    <form id="homeSearch">
+      <div class="search-grid">
+        <label>Location<input id="qLocation" placeholder="City, locality or project"></label>
+        <label>Property type<select id="qType"><option value="">Any type</option><option>Apartment</option><option>Independent House</option><option>Villa</option><option>Plot</option><option>Office</option><option>Shop</option><option>Warehouse</option></select></label>
+        <label>Budget<select id="qBudget"><option value="">Any budget</option><option value="0-5000000">Up to ₹50 Lakh</option><option value="5000000-10000000">₹50 Lakh–₹1 Cr</option><option value="10000000-25000000">₹1–2.5 Cr</option><option value="25000000-999999999">₹2.5 Cr+</option></select></label>
+        <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+      </div>
+    </form>
+    <div class="quick"><span>Popular:</span><button data-city="Rajkot">Rajkot</button><button data-city="Ahmedabad">Ahmedabad</button><button data-city="Surat">Surat</button><button data-city="Gandhinagar">Gandhinagar</button></div>
+  </div>
+</section>
+
+<section class="section rt-container">
+  <div class="section-head"><div><span class="eyebrow">EXPLORE</span><h2>Property categories</h2></div><a href="realty-listings.html">View all <i class="fa-solid fa-arrow-right"></i></a></div>
+  <div class="category-grid">
+    <a class="category" href="realty-listings.html?type=Apartment"><i class="fa-solid fa-building"></i><b>Apartments</b><span>Flats & high-rises</span></a>
+    <a class="category" href="realty-listings.html?type=Independent%20House"><i class="fa-solid fa-house"></i><b>Independent Homes</b><span>Houses & villas</span></a>
+    <a class="category" href="realty-listings.html?type=plot"><i class="fa-solid fa-tree-city"></i><b>Plots & Land</b><span>Residential & commercial</span></a>
+    <a class="category" href="realty-listings.html?type=commercial"><i class="fa-solid fa-shop"></i><b>Commercial</b><span>Office, shop & warehouse</span></a>
+  </div>
+</section>
+
+<section class="section muted">
+  <div class="rt-container">
+    <div class="section-head"><div><span class="eyebrow">DELTA LISTINGS</span><h2>Featured properties</h2></div><a href="realty-listings.html">Browse properties <i class="fa-solid fa-arrow-right"></i></a></div>
+    <div id="featuredGrid" class="property-grid"></div>
+  </div>
+</section>
+
+<section class="section rt-container split">
+  <div class="owner-card">
+    <span class="eyebrow">FOR OWNERS • BROKERS • BUILDERS</span>
+    <h2>Have a property to sell or rent?</h2>
+    <p>List your property and start receiving enquiries. Delta Realty is designed to combine property discovery with local brokerage assistance.</p>
+    <a class="primary" href="realty-post.html">List your property <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+  <div class="why-card">
+    <div><i class="fa-solid fa-shield-halved"></i><b>Verification-ready</b><span>Listings can be reviewed before going live.</span></div>
+    <div><i class="fa-solid fa-phone"></i><b>Broker assistance</b><span>Request a site visit or talk to Delta.</span></div>
+    <div><i class="fa-solid fa-location-dot"></i><b>Local-first</b><span>Start with Gujarat and expand city by city.</span></div>
+  </div>
+</section>
+</main>
+
+<footer class="rt-footer">
+  <div class="rt-container footer-grid">
+    <div><a class="brand light" href="realty.html"><span class="brand-mark">Δ</span><span><b>DELTA</b><small>REALTY</small></span></a><p>Real-estate marketplace and brokerage services from the Delta business.</p></div>
+    <div><b>Real Estate</b><a href="realty-listings.html">Buy</a><a href="realty-listings.html?mode=rent">Rent</a><a href="realty-post.html">Post Property</a></div>
+    <div><b>Delta Export</b><a href="index.html">Existing Export Website</a><a href="products.html">Products</a><a href="scrap.html">Scrap Export</a></div>
+  </div>
+  <div class="copyright">© <span id="year"></span> Delta. Delta Export content and existing pages remain separate and preserved.</div>
+</footer>
+<script src="realty-data.js"></script>
+<script src="realty.js"></script>
+</body>
+</html>

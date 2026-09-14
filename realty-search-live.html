@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Delta Realty — Search Properties</title>
+<link rel="stylesheet" href="realty.css">
+<style>
+.live-search{max-width:1200px;margin:auto;padding:32px 20px}
+.search-panel{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;background:#fff;padding:18px;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+.search-panel label{font-size:12px;font-weight:700}.search-panel input,.search-panel select{width:100%;padding:12px;border:1px solid #ddd;border-radius:9px;margin-top:6px}
+.results-head{display:flex;justify-content:space-between;align-items:center;margin:28px 0 14px}.live-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.live-card{background:#fff;border:1px solid #eee;border-radius:16px;overflow:hidden}.live-card img{width:100%;height:190px;object-fit:cover}.live-card .body{padding:15px}.price{font-size:20px;font-weight:800}.meta{color:#666;font-size:13px;margin:7px 0}.verified{font-size:11px;font-weight:700}
+@media(max-width:850px){.search-panel{grid-template-columns:repeat(2,1fr)}.live-grid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.search-panel,.live-grid{grid-template-columns:1fr}}
+</style></head>
+<body class="realty-app">
+<header class="realty-topbar"><a class="realty-brand" href="realty.html">DELTA <span>REALTY</span></a>
+<nav><a href="realty.html">Home</a><a href="realty-listings.html">Properties</a><a href="realty-post-live.html">Post Property</a><a href="realty-dashboard.html">Dashboard</a><a href="index.html">Delta Export</a></nav></header>
+<main class="live-search">
+<h1>Find your next property</h1><p class="muted">Search live, approved Delta Realty listings.</p>
+<form id="filters" class="search-panel">
+<label>City / locality<input id="location" placeholder="Ahmedabad, Anand, Vadodara..."></label>
+<label>Listing<select id="listing"><option value="">Any</option><option value="sale">Buy</option><option value="rent">Rent</option><option value="lease">Lease</option></select></label>
+<label>Property type<select id="ptype"><option value="">Any</option><option>Apartment</option><option>Independent House</option><option>Villa</option><option>Plot</option><option>Office</option><option>Shop</option><option>Warehouse</option><option>Industrial</option></select></label>
+<label>Min price<input id="min" type="number" min="0"></label>
+<label>Max price<input id="max" type="number" min="0"></label>
+<button class="btn primary" type="submit">Search</button>
+</form>
+<div class="results-head"><h2 id="count">Properties</h2><select id="sort"><option value="new">Newest</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div>
+<div id="results" class="live-grid"></div>
+</main>
+<script src="realty-supabase.js"></script>
+<script>
+let rows=[];
+document.addEventListener("delta-supabase-ready",()=>load());
+document.getElementById("filters").addEventListener("submit",e=>{e.preventDefault();load()});
+document.getElementById("sort").addEventListener("change",()=>render());
+async function load(){
+ const box=document.getElementById("results");
+ if(!window.deltaSupabase){box.innerHTML="<p>Configure Supabase in realty-supabase.js first.</p>";return}
+ let q=deltaSupabase.from("properties").select("id,title,city,locality,listing_type,property_type,price,area_sqft,bhk,verified,property_images(image_url)").eq("status","approved").eq("verified",true);
+ const loc=document.getElementById("location").value.trim();
+ const lt=document.getElementById("listing").value, pt=document.getElementById("ptype").value;
+ const min=document.getElementById("min").value,max=document.getElementById("max").value;
+ if(lt)q=q.eq("listing_type",lt); if(pt)q=q.eq("property_type",pt);
+ if(min)q=q.gte("price",Number(min)); if(max)q=q.lte("price",Number(max));
+ if(loc)q=q.or(`city.ilike.%${loc}%,locality.ilike.%${loc}%`);
+ const {data,error}=await q.order("created_at",{ascending:false});
+ if(error){box.innerHTML="<p>"+esc(error.message)+"</p>";return}
+ rows=data||[];render();
+}
+function render(){
+ const sort=document.getElementById("sort").value;
+ let a=[...rows].sort((x,y)=>sort==="low"?Number(x.price)-Number(y.price):sort==="high"?Number(y.price)-Number(x.price):0);
+ document.getElementById("count").textContent=a.length+" properties";
+ document.getElementById("results").innerHTML=a.length?a.map(x=>{
+   const img=x.property_images?.[0]?.image_url||"all_spices.jpg";
+   return `<article class="live-card"><img src="${esc(img)}" alt=""><div class="body"><div class="price">₹${fmt(x.price)}</div><h3>${esc(x.title||x.property_type)}</h3><div class="meta">${esc(x.locality)}, ${esc(x.city)}</div><div class="meta">${x.bhk?x.bhk+" BHK · ":""}${x.area_sqft?x.area_sqft+" sq ft · ":""}${esc(x.listing_type)}</div><span class="verified">✓ VERIFIED LISTING</span><br><a class="btn" href="realty-property.html?id=${encodeURIComponent(x.id)}">View property</a></div></article>`}).join(""):"<p>No approved properties match these filters.</p>";
+}
+function fmt(n){return new Intl.NumberFormat("en-IN").format(n||0)} function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+</script></body></html>

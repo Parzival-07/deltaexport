@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Delta Realty — Property Photos</title><link rel="stylesheet" href="realty.css">
+<style>.wrap{max-width:800px;margin:auto;padding:35px 20px}.card{background:#fff;padding:25px;border-radius:16px}.preview{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}.preview img{width:100%;height:150px;object-fit:cover;border-radius:10px}</style></head>
+<body class="realty-app"><header class="realty-topbar"><a class="realty-brand" href="realty.html">DELTA <span>REALTY</span></a><nav><a href="realty-dashboard.html">Dashboard</a><a href="realty.html">Home</a></nav></header>
+<main class="wrap"><h1>Upload property photos</h1><p class="muted">Upload photos after creating a property. Images are stored in the Supabase property-images bucket.</p>
+<div class="card"><label>Property ID<input id="pid" placeholder="Paste property UUID"></label><br><input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple><button class="btn primary" onclick="upload()">Upload</button><p id="msg"></p><div id="preview" class="preview"></div></div></main>
+<script src="realty-supabase.js"></script><script>
+async function upload(){
+ const msg=document.getElementById("msg"),pid=document.getElementById("pid").value.trim(),files=[...document.getElementById("photos").files];
+ if(!window.deltaSupabase){msg.textContent="Configure Supabase first.";return}
+ const u=(await deltaSupabase.auth.getUser()).data.user;if(!u){msg.textContent="Sign in first.";return}
+ if(!pid||!files.length){msg.textContent="Enter a property ID and choose photos.";return}
+ for(const file of files){
+   if(file.size>8*1024*1024){msg.textContent="Each image must be 8 MB or smaller.";continue}
+   const ext=file.name.split(".").pop().toLowerCase(),path=`${u.id}/${pid}/${crypto.randomUUID()}.${ext}`;
+   const up=await deltaSupabase.storage.from("property-images").upload(path,file,{contentType:file.type});
+   if(up.error){msg.textContent=up.error.message;return}
+   const pub=deltaSupabase.storage.from("property-images").getPublicUrl(path).data.publicUrl;
+   const ins=await deltaSupabase.from("property_images").insert({property_id:pid,image_url:pub,storage_path:path});
+   if(ins.error){msg.textContent=ins.error.message;return}
+   const im=document.createElement("img");im.src=pub;document.getElementById("preview").appendChild(im);
+ }
+ msg.textContent="Upload complete.";
+}
+</script></body></html>

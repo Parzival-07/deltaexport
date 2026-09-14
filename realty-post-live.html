@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Delta Realty — Post Property</title>
+<link rel="stylesheet" href="realty.css">
+</head>
+<body class="realty-app">
+<header class="realty-topbar">
+  <a class="realty-brand" href="realty.html">DELTA <span>REALTY</span></a>
+  <nav><a href="realty.html">Home</a><a href="realty-listings.html">Properties</a><a href="realty-dashboard.html">Dashboard</a><a href="index.html">Delta Export</a></nav>
+</header>
+<main class="form-wrap">
+  <section class="page-heading"><div><p class="eyebrow">List your property</p><h1>Post Property</h1><p class="muted">Your listing will go live after admin review.</p></div></section>
+  <div id="auth-box" class="notice">Checking login…</div>
+  <form id="property-form" class="form-card">
+    <div class="form-grid">
+      <label>Listing <select name="listing_type" required><option value="sale">Sale</option><option value="rent">Rent</option><option value="lease">Lease</option></select></label>
+      <label>Property type <select name="property_type" required><option>Apartment</option><option>Independent House</option><option>Villa</option><option>Plot</option><option>Office</option><option>Shop</option><option>Warehouse</option><option>Industrial</option></select></label>
+      <label class="wide">Title <input name="title" required placeholder="e.g. 3 BHK premium apartment near city centre"></label>
+      <label>City <input name="city" required></label>
+      <label>Locality <input name="locality" required></label>
+      <label>Price <input name="price" type="number" min="0" required></label>
+      <label>Area (sq ft) <input name="area_sqft" type="number" min="0"></label>
+      <label>BHK <input name="bhk" type="number" min="0"></label>
+      <label>Bathrooms <input name="bathrooms" type="number" min="0"></label>
+      <label class="wide">Description <textarea name="description" rows="6" required></textarea></label>
+      <label class="wide">Address <textarea name="address" rows="3"></textarea></label>
+    </div>
+    <button class="btn primary" type="submit">Submit for Review</button>
+    <p id="form-message" class="muted"></p>
+  </form>
+</main>
+<script src="realty-supabase.js"></script>
+<script src="realty-auth.js"></script>
+<script>
+let currentUser;
+document.addEventListener("delta-supabase-ready", async () => {
+  const box = document.getElementById("auth-box");
+  if (!window.deltaSupabase) { box.textContent="Supabase is not configured yet."; return; }
+  currentUser = await DeltaRealtyAuth.getUser();
+  if (!currentUser) {
+    box.innerHTML='Please sign in before posting. Use the authentication flow configured for your Supabase project.';
+    document.getElementById("property-form").style.display="none";
+  } else box.textContent="Signed in. Complete the form below.";
+});
+document.getElementById("property-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg=document.getElementById("form-message");
+  if (!currentUser) { msg.textContent="Please sign in first."; return; }
+  const f=new FormData(e.target), payload=Object.fromEntries(f.entries());
+  ["price","area_sqft","bhk","bathrooms"].forEach(k => payload[k] = payload[k] === "" ? null : Number(payload[k]));
+  payload.owner_id=currentUser.id; payload.status="pending"; payload.verified=false;
+  const { error }=await deltaSupabase.from("properties").insert(payload);
+  if(error){msg.textContent=error.message; return;}
+  msg.textContent="Submitted successfully. Your property is now waiting for admin approval.";
+  e.target.reset();
+});
+</script>
+</body>
+</html>

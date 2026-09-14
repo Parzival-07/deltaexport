@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Delta Realty — Dashboard</title>
+<link rel="stylesheet" href="realty.css">
+</head>
+<body class="realty-app">
+<header class="realty-topbar">
+  <a class="realty-brand" href="realty.html">DELTA <span>REALTY</span></a>
+  <nav>
+    <a href="realty.html">Home</a>
+    <a href="realty-listings.html">Properties</a>
+    <a href="realty-post.html">Post Property</a>
+    <a href="index.html">Delta Export</a>
+  </nav>
+</header>
+
+<main class="dashboard-wrap">
+  <section class="page-heading">
+    <div>
+      <p class="eyebrow">Delta Realty</p>
+      <h1>My Dashboard</h1>
+      <p class="muted">Manage listings, enquiries and saved properties.</p>
+    </div>
+    <a class="btn primary" href="realty-post.html">+ Post Property</a>
+  </section>
+
+  <div id="dashboard-status" class="notice">Checking your account…</div>
+
+  <section class="stats-grid">
+    <article><strong id="stat-listings">—</strong><span>My listings</span></article>
+    <article><strong id="stat-active">—</strong><span>Active listings</span></article>
+    <article><strong id="stat-leads">—</strong><span>Enquiries</span></article>
+    <article><strong id="stat-favourites">—</strong><span>Favourites</span></article>
+  </section>
+
+  <section class="dashboard-card">
+    <div class="section-title"><h2>My Listings</h2></div>
+    <div id="my-listings" class="dashboard-list"></div>
+  </section>
+</main>
+
+<script src="realty-supabase.js"></script>
+<script src="realty-auth.js"></script>
+<script>
+document.addEventListener("delta-supabase-ready", loadDashboard);
+async function loadDashboard() {
+  const status = document.getElementById("dashboard-status");
+  if (!window.deltaSupabase) {
+    status.textContent = "Connect Supabase in realty-supabase.js to enable the live dashboard.";
+    return;
+  }
+  const user = await DeltaRealtyAuth.getUser();
+  if (!user) {
+    status.innerHTML = 'Please sign in first. <a href="realty-post.html">Go to Post Property</a>';
+    return;
+  }
+  const { data: listings, error } = await deltaSupabase
+    .from("properties")
+    .select("id,title,city,locality,listing_type,property_type,status,price,created_at")
+    .eq("owner_id", user.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    status.textContent = error.message;
+    return;
+  }
+
+  status.textContent = "Signed in as " + (user.email || user.phone || user.id);
+  document.getElementById("stat-listings").textContent = listings.length;
+  document.getElementById("stat-active").textContent = listings.filter(x => x.status === "approved").length;
+
+  const box = document.getElementById("my-listings");
+  box.innerHTML = listings.length ? listings.map(x => `
+    <div class="dashboard-row">
+      <div><strong>${escapeHtml(x.title || "Untitled property")}</strong>
+      <span>${escapeHtml(x.locality || "")}${x.locality ? ", " : ""}${escapeHtml(x.city || "")}</span></div>
+      <span class="badge">${escapeHtml(x.status || "pending")}</span>
+    </div>`).join("") : "<p class='muted'>No listings yet.</p>";
+
+  const { count: leads } = await deltaSupabase
+    .from("property_leads").select("*", { count: "exact", head: true }).eq("owner_id", user.id);
+  document.getElementById("stat-leads").textContent = leads ?? 0;
+
+  const { count: favs } = await deltaSupabase
+    .from("favorites").select("*", { count: "exact", head: true }).eq("user_id", user.id);
+  document.getElementById("stat-favourites").textContent = favs ?? 0;
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+</script>
+</body>
+</html>

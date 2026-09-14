@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Delta Realty — Admin</title>
+<link rel="stylesheet" href="realty.css">
+</head>
+<body class="realty-app">
+<header class="realty-topbar">
+  <a class="realty-brand" href="realty.html">DELTA <span>REALTY</span></a>
+  <nav>
+    <a href="realty.html">Home</a>
+    <a href="realty-listings.html">Properties</a>
+    <a href="realty-dashboard.html">Dashboard</a>
+  </nav>
+</header>
+
+<main class="dashboard-wrap">
+  <section class="page-heading">
+    <div><p class="eyebrow">Administration</p><h1>Listing Review</h1>
+    <p class="muted">Approve, reject and verify property submissions.</p></div>
+  </section>
+  <div id="admin-status" class="notice">Checking admin access…</div>
+  <section class="dashboard-card">
+    <div class="section-title"><h2>Pending properties</h2><button class="btn" onclick="loadPending()">Refresh</button></div>
+    <div id="pending-list" class="dashboard-list"></div>
+  </section>
+</main>
+
+<script src="realty-supabase.js"></script>
+<script src="realty-auth.js"></script>
+<script>
+document.addEventListener("delta-supabase-ready", initAdmin);
+async function initAdmin() {
+  const s = document.getElementById("admin-status");
+  if (!window.deltaSupabase) { s.textContent = "Connect Supabase first."; return; }
+  const profile = await DeltaRealtyAuth.profile();
+  if (!profile || profile.role !== "admin") {
+    s.textContent = "Access denied. Your account must have role = admin.";
+    return;
+  }
+  s.textContent = "Admin access granted.";
+  loadPending();
+}
+async function loadPending() {
+  const profile = await DeltaRealtyAuth.profile();
+  if (!profile || profile.role !== "admin") return;
+  const { data, error } = await deltaSupabase.from("properties")
+    .select("id,title,city,locality,listing_type,property_type,price,status,created_at")
+    .eq("status","pending").order("created_at",{ascending:false});
+  const box = document.getElementById("pending-list");
+  if (error) { box.innerHTML = "<p>"+escapeHtml(error.message)+"</p>"; return; }
+  box.innerHTML = data.length ? data.map(x => `
+    <div class="dashboard-row">
+      <div><strong>${escapeHtml(x.title || "Untitled")}</strong>
+      <span>${escapeHtml(x.property_type || "")} · ${escapeHtml(x.listing_type || "")} · ${escapeHtml(x.locality || "")}, ${escapeHtml(x.city || "")}</span></div>
+      <div class="row-actions">
+        <button class="btn" onclick="review('${x.id}','approved')">Approve</button>
+        <button class="btn danger" onclick="review('${x.id}','rejected')">Reject</button>
+      </div>
+    </div>`).join("") : "<p class='muted'>No pending listings.</p>";
+}
+async function review(id,status) {
+  const { error } = await deltaSupabase.from("properties").update({
+    status, verified: status === "approved"
+  }).eq("id",id);
+  if (error) alert(error.message); else loadPending();
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+</script>
+</body>
+</html>

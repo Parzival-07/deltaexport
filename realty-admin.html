@@ -1,45 +1,67 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="no-js">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Delta Realty — Admin</title>
-<link rel="stylesheet" href="realty.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Admin · Delta Realty</title>
+  <meta name="description" content="Listing review">
+  <meta name="theme-color" content="#faf9f6">
+  <link rel="icon" href="assets/images/brand/logo.jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
-<body class="realty-app">
-<header class="realty-topbar">
-  <a class="realty-brand" href="realty.html">DELTA <span>REALTY</span></a>
-  <nav>
-    <a href="realty.html">Home</a>
-    <a href="realty-listings.html">Properties</a>
-    <a href="realty-dashboard.html">Dashboard</a>
+<body>
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><img src="assets/images/brand/logo.jpeg" alt="" width="34" height="34"><span>Delta Export<small>Spices · Scrap · Realty</small></span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span></span></button>
+    <nav class="nav-links" id="navMenu" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="products.html">Spices</a>
+        <a href="scrap.html">Scrap</a>
+        <a href="realty.html" class="active">Realty</a>
+        <a href="contact.html" class="nav-cta">Contact</a>
+    </nav>
+  </div>
+  <nav class="subnav" aria-label="Realty">
+    <div class="wrap">
+      <a class="subnav-title" href="realty.html">Delta Realty</a>
+      <a href="realty.html" data-subnav="home">Overview</a>
+      <a href="realty-listings.html?mode=buy" data-subnav="buy">Buy</a>
+      <a href="realty-listings.html?mode=rent" data-subnav="rent">Rent</a>
+      <a href="realty-listings.html?type=commercial" data-subnav="commercial">Commercial</a>
+      <a href="realty-listings.html?type=Plot" data-subnav="plot">Plots</a>
+      <a href="realty-post.html" class="subnav-cta">+ Post property</a>
+    </div>
   </nav>
 </header>
 
-<main class="dashboard-wrap">
-  <section class="page-heading">
-    <div><p class="eyebrow">Administration</p><h1>Listing Review</h1>
-    <p class="muted">Approve, reject and verify property submissions.</p></div>
-  </section>
-  <div id="admin-status" class="notice">Checking admin access…</div>
-  <section class="dashboard-card">
-    <div class="section-title"><h2>Pending properties</h2><button class="btn" onclick="loadPending()">Refresh</button></div>
-    <div id="pending-list" class="dashboard-list"></div>
-  </section>
-</main>
+<main>
+<script src="assets/js/realty/supabase.js"></script>
+<script src="assets/js/realty/auth.js"></script>
 
-<script src="realty-supabase.js"></script>
-<script src="realty-auth.js"></script>
+<div class="wrap" style="padding:40px 0 96px">
+  <div class="listing-head" style="padding-top:0">
+    <div><span class="eyebrow">Administration</span><h1 style="margin-top:12px">Listing review</h1><p>Approve, reject and verify property submissions.</p></div>
+    
+  </div>
+  <div id="admin-status" class="notice">Checking admin access…</div>
+  <section class="card">
+    <div class="card-head"><h2>Pending properties</h2><button class="btn btn-ghost btn-sm" type="button" onclick="loadPending()">Refresh</button></div>
+    <div id="pending-list"></div>
+  </section>
+</div>
 <script>
 document.addEventListener("delta-supabase-ready", initAdmin);
 async function initAdmin() {
   const s = document.getElementById("admin-status");
   if (!window.deltaSupabase) { s.textContent = "Connect Supabase first."; return; }
   const profile = await DeltaRealtyAuth.profile();
-  if (!profile || profile.role !== "admin") {
-    s.textContent = "Access denied. Your account must have role = admin.";
-    return;
-  }
+  if (!profile || profile.role !== "admin") { s.textContent = "Access denied. Your account must have role = admin."; return; }
   s.textContent = "Admin access granted.";
   loadPending();
 }
@@ -48,26 +70,69 @@ async function loadPending() {
   if (!profile || profile.role !== "admin") return;
   const { data, error } = await deltaSupabase.from("properties")
     .select("id,title,city,locality,listing_type,property_type,price,status,created_at")
-    .eq("status","pending").order("created_at",{ascending:false});
+    .eq("status", "pending").order("created_at", { ascending: false });
   const box = document.getElementById("pending-list");
-  if (error) { box.innerHTML = "<p>"+escapeHtml(error.message)+"</p>"; return; }
+  if (error) { box.innerHTML = "<p>" + escapeHtml(error.message) + "</p>"; return; }
   box.innerHTML = data.length ? data.map(x => `
-    <div class="dashboard-row">
+    <div class="row">
       <div><strong>${escapeHtml(x.title || "Untitled")}</strong>
       <span>${escapeHtml(x.property_type || "")} · ${escapeHtml(x.listing_type || "")} · ${escapeHtml(x.locality || "")}, ${escapeHtml(x.city || "")}</span></div>
       <div class="row-actions">
-        <button class="btn" onclick="review('${x.id}','approved')">Approve</button>
-        <button class="btn danger" onclick="review('${x.id}','rejected')">Reject</button>
+        <button class="btn btn-primary btn-sm" onclick="review('${x.id}','approved')">Approve</button>
+        <button class="btn btn-danger btn-sm" onclick="review('${x.id}','rejected')">Reject</button>
       </div>
     </div>`).join("") : "<p class='muted'>No pending listings.</p>";
 }
-async function review(id,status) {
-  const { error } = await deltaSupabase.from("properties").update({
-    status, verified: status === "approved"
-  }).eq("id",id);
+async function review(id, status) {
+  const { error } = await deltaSupabase.from("properties").update({ status, verified: status === "approved" }).eq("id", id);
   if (error) alert(error.message); else loadPending();
 }
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
 </script>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="index.html"><img src="assets/images/brand/logo.jpeg" alt="" width="34" height="34"><span>Delta Export<small>Spices · Scrap · Realty</small></span></a>
+        <p>Indian spices and industrial metal scrap for buyers worldwide, plus residential and commercial property across Gujarat.</p>
+      </div>
+      <div>
+        <h4>Business</h4>
+        <ul>
+          <li><a href="products.html">Spice export</a></li>
+          <li><a href="scrap.html">Metal scrap</a></li>
+          <li><a href="realty.html">Delta Realty</a></li>
+          <li><a href="realty-post.html">Post a property</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="https://wa.me/919662679966" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <ul>
+          <li><a href="tel:+919662679966">+91 96626 79966</a></li>
+          <li><a href="tel:+919377105491">+91 93771 05491</a></li>
+          <li><a href="mailto:deltaexports09@gmail.com">deltaexports09@gmail.com</a></li>
+          <li>Gujarat, India</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year></span> Delta Export. All rights reserved.</span>
+      <span>IEC · FSSAI · Spices Board registered</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/919662679966" class="wa-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+<script src="assets/js/main.js"></script>
 </body>
 </html>

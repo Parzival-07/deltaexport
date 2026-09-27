@@ -1,11 +1,137 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Post Property | Delta Realty</title><link rel="stylesheet" href="realty.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
-<body><header class="rt-header"><div class="rt-container nav"><a class="brand" href="realty.html"><span class="brand-mark">Δ</span><span><b>DELTA</b><small>REALTY</small></span></a><nav><a href="realty.html">Home</a><a href="realty-listings.html">Buy</a><a href="realty-listings.html?mode=rent">Rent</a><a href="realty-post.html" class="post-btn active-btn">Post Property</a></nav></div></header>
-<main class="form-page rt-container"><div class="form-intro"><span class="eyebrow">LIST WITH DELTA</span><h1>Post your property</h1><p>This first version stores your draft locally in the browser. The production version can connect this form to a secure database, image storage and an admin approval workflow.</p></div>
-<form id="propertyForm" class="property-form">
-<div class="form-section"><h2>1. Listing type</h2><div class="radio-row"><label><input type="radio" name="role" value="Owner" checked> Owner</label><label><input type="radio" name="role" value="Broker"> Broker</label><label><input type="radio" name="role" value="Builder"> Builder</label></div><div class="radio-row"><label><input type="radio" name="mode" value="buy" checked> Sell</label><label><input type="radio" name="mode" value="rent"> Rent / Lease</label></div></div>
-<div class="form-section"><h2>2. Property details</h2><div class="form-grid"><label>Property title<input required name="title" placeholder="e.g. Spacious 3 BHK near Kalawad Road"></label><label>Property type<select name="type"><option>Apartment</option><option>Independent House</option><option>Villa</option><option>Plot</option><option>Office</option><option>Shop</option><option>Warehouse</option></select></label><label>City<input required name="city" placeholder="Rajkot"></label><label>Locality<input required name="locality" placeholder="Kalawad Road"></label><label>Price / rent (₹)<input required name="price" type="number" min="0"></label><label>BHK<input name="beds" type="number" min="0" max="10"></label><label>Area (sq.ft.)<input name="area" type="number" min="0"></label><label>Bathrooms<input name="baths" type="number" min="0"></label></div><label>Description<textarea name="description" rows="5" placeholder="Tell buyers/tenants about the property..."></textarea></label></div>
-<div class="form-section"><h2>3. Contact</h2><div class="form-grid"><label>Your name<input required name="name"></label><label>Phone / WhatsApp<input required name="phone" type="tel"></label><label>Email<input name="email" type="email"></label></div></div>
-<button class="primary big" type="submit">Submit property for review <i class="fa-solid fa-arrow-right"></i></button><p id="formMsg" class="form-msg"></p></form></main>
-<footer class="rt-footer"><div class="copyright">© <span id="year"></span> Delta Realty • <a href="index.html">Delta Export</a></div></footer>
-<script src="realty-data.js"></script><script src="realty.js"></script></body></html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Post Property · Delta Realty</title>
+  <meta name="description" content="List your property for sale or rent on Delta Realty.">
+  <meta name="theme-color" content="#faf9f6">
+  <link rel="icon" href="assets/images/brand/logo.jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><img src="assets/images/brand/logo.jpeg" alt="" width="34" height="34"><span>Delta Export<small>Spices · Scrap · Realty</small></span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span></span></button>
+    <nav class="nav-links" id="navMenu" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="products.html">Spices</a>
+        <a href="scrap.html">Scrap</a>
+        <a href="realty.html" class="active">Realty</a>
+        <a href="contact.html" class="nav-cta">Contact</a>
+    </nav>
+  </div>
+  <nav class="subnav" aria-label="Realty">
+    <div class="wrap">
+      <a class="subnav-title" href="realty.html">Delta Realty</a>
+      <a href="realty.html" data-subnav="home">Overview</a>
+      <a href="realty-listings.html?mode=buy" data-subnav="buy">Buy</a>
+      <a href="realty-listings.html?mode=rent" data-subnav="rent">Rent</a>
+      <a href="realty-listings.html?type=commercial" data-subnav="commercial">Commercial</a>
+      <a href="realty-listings.html?type=Plot" data-subnav="plot">Plots</a>
+      <a href="realty-post.html" class="subnav-cta active">+ Post property</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+<div class="wrap form-page">
+  <div class="listing-head" style="padding-top:0">
+    <div><span class="eyebrow">List with Delta</span><h1 style="margin-top:12px">Post your property</h1><p>It takes about two minutes. Our team reviews every listing before it goes live.</p></div>
+  </div>
+  <form id="propertyForm" class="form-card">
+    <div class="form-section">
+      <h2><span>01</span> Listing type</h2>
+      <div class="choice-row">
+        <label class="choice"><input type="radio" name="role" value="Owner" checked><span>Owner</span></label>
+        <label class="choice"><input type="radio" name="role" value="Broker"><span>Broker</span></label>
+        <label class="choice"><input type="radio" name="role" value="Builder"><span>Builder</span></label>
+      </div>
+      <div class="choice-row">
+        <label class="choice"><input type="radio" name="mode" value="buy" checked><span>Sell</span></label>
+        <label class="choice"><input type="radio" name="mode" value="rent"><span>Rent / Lease</span></label>
+      </div>
+    </div>
+    <div class="form-section">
+      <h2><span>02</span> Property details</h2>
+      <div class="form-grid">
+        <label class="wide"><span>Title</span><input required name="title" placeholder="e.g. Spacious 3 BHK near Kalawad Road"></label>
+        <label><span>Property type</span><select name="type"><option>Apartment</option><option>Independent House</option><option>Villa</option><option>Plot</option><option>Office</option><option>Shop</option><option>Warehouse</option></select></label>
+        <label><span>Price / monthly rent (₹)</span><input required name="price" type="number" min="0" inputmode="numeric"></label>
+        <label><span>City</span><input required name="city" placeholder="Rajkot"></label>
+        <label><span>Locality</span><input required name="locality" placeholder="Kalawad Road"></label>
+        <label><span>BHK</span><input name="beds" type="number" min="0" max="10"></label>
+        <label><span>Bathrooms</span><input name="baths" type="number" min="0"></label>
+        <label><span>Area (sq.ft.)</span><input name="area" type="number" min="0"></label>
+        <label class="wide"><span>Description</span><textarea name="description" rows="5" placeholder="What makes this property worth a visit?"></textarea></label>
+      </div>
+    </div>
+    <div class="form-section">
+      <h2><span>03</span> Your contact</h2>
+      <div class="form-grid">
+        <label><span>Name</span><input required name="name" autocomplete="name"></label>
+        <label><span>Phone / WhatsApp</span><input required name="phone" type="tel" autocomplete="tel"></label>
+        <label class="wide"><span>Email (optional)</span><input name="email" type="email" autocomplete="email"></label>
+      </div>
+    </div>
+    <div class="form-foot">
+      <button class="btn btn-accent btn-lg" type="submit">Submit for review <i class="fa-solid fa-arrow-right"></i></button>
+      <p id="formMsg" class="form-msg" aria-live="polite"></p>
+    </div>
+  </form>
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="index.html"><img src="assets/images/brand/logo.jpeg" alt="" width="34" height="34"><span>Delta Export<small>Spices · Scrap · Realty</small></span></a>
+        <p>Indian spices and industrial metal scrap for buyers worldwide, plus residential and commercial property across Gujarat.</p>
+      </div>
+      <div>
+        <h4>Business</h4>
+        <ul>
+          <li><a href="products.html">Spice export</a></li>
+          <li><a href="scrap.html">Metal scrap</a></li>
+          <li><a href="realty.html">Delta Realty</a></li>
+          <li><a href="realty-post.html">Post a property</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="https://wa.me/919662679966" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <ul>
+          <li><a href="tel:+919662679966">+91 96626 79966</a></li>
+          <li><a href="tel:+919377105491">+91 93771 05491</a></li>
+          <li><a href="mailto:deltaexports09@gmail.com">deltaexports09@gmail.com</a></li>
+          <li>Gujarat, India</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year></span> Delta Export. All rights reserved.</span>
+      <span>IEC · FSSAI · Spices Board registered</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/919662679966" class="wa-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/realty/data.js"></script>
+<script src="assets/js/realty/app.js"></script>
+</body>
+</html>

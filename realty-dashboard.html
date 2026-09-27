@@ -1,96 +1,136 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="no-js">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Delta Realty — Dashboard</title>
-<link rel="stylesheet" href="realty.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Dashboard · Delta Realty</title>
+  <meta name="description" content="My dashboard">
+  <meta name="theme-color" content="#faf9f6">
+  <link rel="icon" href="assets/images/brand/logo.jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
-<body class="realty-app">
-<header class="realty-topbar">
-  <a class="realty-brand" href="realty.html">DELTA <span>REALTY</span></a>
-  <nav>
-    <a href="realty.html">Home</a>
-    <a href="realty-listings.html">Properties</a>
-    <a href="realty-post.html">Post Property</a>
-    <a href="index.html">Delta Export</a>
+<body>
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><img src="assets/images/brand/logo.jpeg" alt="" width="34" height="34"><span>Delta Export<small>Spices · Scrap · Realty</small></span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span></span></button>
+    <nav class="nav-links" id="navMenu" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="products.html">Spices</a>
+        <a href="scrap.html">Scrap</a>
+        <a href="realty.html" class="active">Realty</a>
+        <a href="contact.html" class="nav-cta">Contact</a>
+    </nav>
+  </div>
+  <nav class="subnav" aria-label="Realty">
+    <div class="wrap">
+      <a class="subnav-title" href="realty.html">Delta Realty</a>
+      <a href="realty.html" data-subnav="home">Overview</a>
+      <a href="realty-listings.html?mode=buy" data-subnav="buy">Buy</a>
+      <a href="realty-listings.html?mode=rent" data-subnav="rent">Rent</a>
+      <a href="realty-listings.html?type=commercial" data-subnav="commercial">Commercial</a>
+      <a href="realty-listings.html?type=Plot" data-subnav="plot">Plots</a>
+      <a href="realty-post.html" class="subnav-cta">+ Post property</a>
+    </div>
   </nav>
 </header>
 
-<main class="dashboard-wrap">
-  <section class="page-heading">
-    <div>
-      <p class="eyebrow">Delta Realty</p>
-      <h1>My Dashboard</h1>
-      <p class="muted">Manage listings, enquiries and saved properties.</p>
-    </div>
-    <a class="btn primary" href="realty-post.html">+ Post Property</a>
-  </section>
+<main>
+<script src="assets/js/realty/supabase.js"></script>
+<script src="assets/js/realty/auth.js"></script>
 
+<div class="wrap" style="padding:40px 0 96px">
+  <div class="listing-head" style="padding-top:0">
+    <div><span class="eyebrow">Delta Realty</span><h1 style="margin-top:12px">My dashboard</h1><p>Manage your listings, enquiries and saved properties.</p></div>
+    <a class="btn btn-primary" href="realty-post-live.html">+ Post property</a>
+  </div>
   <div id="dashboard-status" class="notice">Checking your account…</div>
-
   <section class="stats-grid">
     <article><strong id="stat-listings">—</strong><span>My listings</span></article>
-    <article><strong id="stat-active">—</strong><span>Active listings</span></article>
+    <article><strong id="stat-active">—</strong><span>Active</span></article>
     <article><strong id="stat-leads">—</strong><span>Enquiries</span></article>
     <article><strong id="stat-favourites">—</strong><span>Favourites</span></article>
   </section>
-
-  <section class="dashboard-card">
-    <div class="section-title"><h2>My Listings</h2></div>
-    <div id="my-listings" class="dashboard-list"></div>
+  <section class="card">
+    <div class="card-head"><h2>My listings</h2></div>
+    <div id="my-listings"></div>
   </section>
-</main>
-
-<script src="realty-supabase.js"></script>
-<script src="realty-auth.js"></script>
+</div>
 <script>
 document.addEventListener("delta-supabase-ready", loadDashboard);
 async function loadDashboard() {
   const status = document.getElementById("dashboard-status");
-  if (!window.deltaSupabase) {
-    status.textContent = "Connect Supabase in realty-supabase.js to enable the live dashboard.";
-    return;
-  }
+  if (!window.deltaSupabase) { status.textContent = "Connect Supabase in assets/js/realty/supabase.js to enable the live dashboard."; return; }
   const user = await DeltaRealtyAuth.getUser();
-  if (!user) {
-    status.innerHTML = 'Please sign in first. <a href="realty-post.html">Go to Post Property</a>';
-    return;
-  }
-  const { data: listings, error } = await deltaSupabase
-    .from("properties")
+  if (!user) { status.innerHTML = 'Please sign in first. <a href="realty-post-live.html">Go to Post Property</a>'; return; }
+  const { data: listings, error } = await deltaSupabase.from("properties")
     .select("id,title,city,locality,listing_type,property_type,status,price,created_at")
-    .eq("owner_id", user.id)
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    status.textContent = error.message;
-    return;
-  }
-
+    .eq("owner_id", user.id).order("created_at", { ascending: false });
+  if (error) { status.textContent = error.message; return; }
   status.textContent = "Signed in as " + (user.email || user.phone || user.id);
   document.getElementById("stat-listings").textContent = listings.length;
   document.getElementById("stat-active").textContent = listings.filter(x => x.status === "approved").length;
-
-  const box = document.getElementById("my-listings");
-  box.innerHTML = listings.length ? listings.map(x => `
-    <div class="dashboard-row">
-      <div><strong>${escapeHtml(x.title || "Untitled property")}</strong>
-      <span>${escapeHtml(x.locality || "")}${x.locality ? ", " : ""}${escapeHtml(x.city || "")}</span></div>
-      <span class="badge">${escapeHtml(x.status || "pending")}</span>
+  document.getElementById("my-listings").innerHTML = listings.length ? listings.map(x => `
+    <div class="row">
+      <div><strong>${escapeHtml(x.title || "Untitled property")}</strong><span>${escapeHtml(x.locality || "")}${x.locality ? ", " : ""}${escapeHtml(x.city || "")}</span></div>
+      <span class="tag">${escapeHtml(x.status || "pending")}</span>
     </div>`).join("") : "<p class='muted'>No listings yet.</p>";
-
-  const { count: leads } = await deltaSupabase
-    .from("property_leads").select("*", { count: "exact", head: true }).eq("owner_id", user.id);
+  const { count: leads } = await deltaSupabase.from("property_leads").select("*", { count: "exact", head: true }).eq("owner_id", user.id);
   document.getElementById("stat-leads").textContent = leads ?? 0;
-
-  const { count: favs } = await deltaSupabase
-    .from("favorites").select("*", { count: "exact", head: true }).eq("user_id", user.id);
+  const { count: favs } = await deltaSupabase.from("favorites").select("*", { count: "exact", head: true }).eq("user_id", user.id);
   document.getElementById("stat-favourites").textContent = favs ?? 0;
 }
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-}
+function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
 </script>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="index.html"><img src="assets/images/brand/logo.jpeg" alt="" width="34" height="34"><span>Delta Export<small>Spices · Scrap · Realty</small></span></a>
+        <p>Indian spices and industrial metal scrap for buyers worldwide, plus residential and commercial property across Gujarat.</p>
+      </div>
+      <div>
+        <h4>Business</h4>
+        <ul>
+          <li><a href="products.html">Spice export</a></li>
+          <li><a href="scrap.html">Metal scrap</a></li>
+          <li><a href="realty.html">Delta Realty</a></li>
+          <li><a href="realty-post.html">Post a property</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="https://wa.me/919662679966" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <ul>
+          <li><a href="tel:+919662679966">+91 96626 79966</a></li>
+          <li><a href="tel:+919377105491">+91 93771 05491</a></li>
+          <li><a href="mailto:deltaexports09@gmail.com">deltaexports09@gmail.com</a></li>
+          <li>Gujarat, India</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year></span> Delta Export. All rights reserved.</span>
+      <span>IEC · FSSAI · Spices Board registered</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/919662679966" class="wa-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+<script src="assets/js/main.js"></script>
 </body>
 </html>

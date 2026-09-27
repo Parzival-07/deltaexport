@@ -1,0 +1,9 @@
+/* Demo listings shown until Supabase is connected. */
+window.DELTA_PROPERTIES = [
+{id:"d1",mode:"buy",type:"Apartment",title:"Modern 3 BHK Apartment",city:"Rajkot",locality:"Kalawad Road",price:7200000,beds:3,baths:3,area:1850,verified:true,tag:"Featured",image:"assets/images/realty/apartment-3bhk.jpg",description:"Bright, spacious 3 BHK apartment in a well-connected Rajkot locality."},
+{id:"d2",mode:"buy",type:"Villa",title:"Premium 4 BHK Villa",city:"Rajkot",locality:"150 Feet Ring Road",price:14500000,beds:4,baths:4,area:3200,verified:true,tag:"Premium",image:"assets/images/realty/villa-4bhk.jpg",description:"Independent villa with generous living spaces and parking."},
+{id:"d3",mode:"rent",type:"Apartment",title:"Furnished 2 BHK for Rent",city:"Rajkot",locality:"Mavdi",price:24000,beds:2,baths:2,area:1200,verified:false,tag:"Rent",image:"assets/images/realty/apartment-2bhk-rent.jpg",description:"Well-maintained furnished apartment available for rent."},
+{id:"d4",mode:"buy",type:"Plot",title:"Residential Plot",city:"Ahmedabad",locality:"Shela",price:5200000,beds:0,baths:0,area:1800,verified:true,tag:"Plot",image:"assets/images/realty/plot.jpg",description:"Residential plot in a developing Ahmedabad locality."},
+{id:"d5",mode:"rent",type:"Office",title:"Ready Office Space",city:"Ahmedabad",locality:"SG Highway",price:65000,beds:0,baths:2,area:2100,verified:true,tag:"Commercial",image:"assets/images/realty/office.jpg",description:"Professional office space suitable for a growing business."},
+{id:"d6",mode:"buy",type:"Independent House",title:"Family Home with Parking",city:"Gandhinagar",locality:"Sector 21",price:9800000,beds:3,baths:3,area:2400,verified:false,tag:"New",image:"assets/images/realty/house.jpg",description:"Comfortable independent home with parking and open space."}
+];
